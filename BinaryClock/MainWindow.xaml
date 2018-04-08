@@ -4,9 +4,56 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BinaryClock"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        mc:Ignorable="d" Loaded="WindowLoaded" Unloaded="WindowUnloaded"
+        Background="{DynamicResource {x:Static SystemColors.WindowBrush}}" 
+        WindowStyle="None" WindowStartupLocation="CenterScreen"
+        Title="Binary Clock" Height="350" Width="200" ResizeMode="NoResize" Visibility="Visible">
+    <Border Padding="10" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <!--Rectangle to allow draging-->
+            <Rectangle Grid.Column="0" Grid.Row="0" Grid.RowSpan="6" Grid.ColumnSpan="3" 
+                       Fill="Transparent"></Rectangle>
+            
+            <!--Exit button-->
+            <Button x:Name="exitBtn" Grid.Column="0" Grid.Row="0" Height="12" 
+                    Width="12" VerticalAlignment="Top" HorizontalAlignment="Left"
+                    Background="White" Click="exitBtn_Click">
+                <Image Source="Images/closeBtn.png"></Image>
+            </Button>
+            <!--First row buttons-->
+            <Rectangle x:Name="hb16" Grid.Column="0" Grid.Row="1" Margin="10"></Rectangle>
+            <Rectangle x:Name="hb08" Grid.Column="0" Grid.Row="2" Margin="10"></Rectangle>
+            <Rectangle x:Name="hb04" Grid.Column="0" Grid.Row="3" Margin="10"></Rectangle>
+            <Rectangle x:Name="hb02" Grid.Column="0" Grid.Row="4" Margin="10"></Rectangle>
+            <Rectangle x:Name="hb01" Grid.Column="0" Grid.Row="5" Margin="10"></Rectangle>
+            <!--Second row buttons-->
+            <Rectangle x:Name="mb32" Grid.Column="1" Grid.Row="0" Margin="10"></Rectangle>
+            <Rectangle x:Name="mb16"  Grid.Column="1" Grid.Row="1" Margin="10"></Rectangle>
+            <Rectangle x:Name="mb08"  Grid.Column="1" Grid.Row="2" Margin="10"></Rectangle>
+            <Rectangle x:Name="mb04"  Grid.Column="1" Grid.Row="3" Margin="10"></Rectangle>
+            <Rectangle x:Name="mb02"  Grid.Column="1" Grid.Row="4" Margin="10"></Rectangle>
+            <Rectangle x:Name="mb01"  Grid.Column="1" Grid.Row="5" Margin="10"></Rectangle>
+            <!--Third row buttons-->
+            <Rectangle x:Name="sb32"  Grid.Column="2" Grid.Row="0" Margin="10"></Rectangle>
+            <Rectangle x:Name="sb16"  Grid.Column="2" Grid.Row="1" Margin="10"></Rectangle>
+            <Rectangle x:Name="sb08"  Grid.Column="2" Grid.Row="2" Margin="10"></Rectangle>
+            <Rectangle x:Name="sb04"  Grid.Column="2" Grid.Row="3" Margin="10"></Rectangle>
+            <Rectangle x:Name="sb02"  Grid.Column="2" Grid.Row="4" Margin="10"></Rectangle>
+            <Rectangle x:Name="sb01"  Grid.Column="2" Grid.Row="5" Margin="10"></Rectangle>
+        </Grid>
+    </Border>
 </Window>
