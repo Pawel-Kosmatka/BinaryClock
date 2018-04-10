@@ -9,20 +9,24 @@ using System.Windows.Threading;
 namespace BinaryClock
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AltWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AltWindow : Window
     {
         DispatcherTimer dTimer;
         DateTime time;
         Rectangle[] hours;
+        Rectangle[] hoursB;
         Rectangle[] minutes;
+        Rectangle[] minutesB;
         Rectangle[] seconds;
+        Rectangle[] secondsB;
 
-        public MainWindow()
+        public AltWindow()
         {
             InitializeComponent();
         }
+
 
         #region Tables Setting
         private void setHoursTable()
@@ -33,7 +37,12 @@ namespace BinaryClock
                 hb02,
                 hb04,
                 hb08,
-                hb16
+            };
+
+            hoursB = new Rectangle[]
+            {
+                hb10,
+                hb20
             };
         }
 
@@ -45,8 +54,13 @@ namespace BinaryClock
                 mb02,
                 mb04,
                 mb08,
-                mb16,
-                mb32
+            };
+
+            minutesB = new Rectangle[]
+            {
+                mb10,
+                mb20,
+                mb40
             };
         }
         private void setSecondsTable()
@@ -56,19 +70,24 @@ namespace BinaryClock
                 sb01,
                 sb02,
                 sb04,
-                sb08,
-                sb16,
-                sb32
+                sb08
+            };
+
+            secondsB = new Rectangle[]
+            {
+                sb10,
+                sb20,
+                sb40
             };
         }
         #endregion
 
-        private void WindowUnloaded(object Sender, EventArgs e)
+        private void Window_Unloaded(object Sender, EventArgs e)
         {
             dTimer.Stop();
         }
 
-        private void WindowLoaded(object Sender, EventArgs e)
+        private void Window_Loaded(object Sender, EventArgs e)
         {
             setHoursTable();
             setMinutesTable();
@@ -81,21 +100,31 @@ namespace BinaryClock
             dTimer.Tick += DTimer_Tick;
             dTimer.Start();
 
-            setTime(time.Hour, hours);
-            setTime(time.Minute, minutes);
-            setTime(time.Second, seconds);
+            setTime(time.Hour % 10, hours);
+            setTime(time.Hour / 10, hoursB);
+            setTime(time.Minute % 10, minutes);
+            setTime(time.Minute / 10, minutesB);
+            setTime(time.Second % 10, seconds);
+            setTime(time.Second / 10, secondsB);
         }
 
         private void DTimer_Tick(object sender, EventArgs e)
         {
             var currentTime = DateTime.Now;
-            setTime(currentTime.Second, seconds);
-            if (currentTime.Hour != time.Hour)
-                setTime(currentTime.Hour, hours);
-            if (currentTime.Minute != time.Minute)
-                setTime(currentTime.Minute, minutes);
-        }
 
+            setTime(currentTime.Second % 10, seconds);
+            setTime(currentTime.Second / 10, secondsB);
+            if (currentTime.Minute != time.Minute)
+            {
+                setTime(currentTime.Minute % 10, minutes);
+                setTime(currentTime.Minute / 10, minutesB);
+            }
+            if (currentTime.Hour != time.Hour)
+            {
+                setTime(currentTime.Hour % 10, hours);
+                setTime(currentTime.Hour / 10, hoursB);
+            }
+        }
         private void setTime(int cTime, Rectangle[] tab)
         {
             var list = new List<int>();
@@ -114,7 +143,6 @@ namespace BinaryClock
                     list.Add(0);
                 }
             }
-
 
             for (int i = 0; i < list.Count; i++)
             {
@@ -138,9 +166,10 @@ namespace BinaryClock
 
         private void ViewChangeBtn_Click(object sender, RoutedEventArgs e)
         {
-            var nWindow = new AltWindow();
-            nWindow.Show();
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
             this.Close();
         }
+
     }
 }
