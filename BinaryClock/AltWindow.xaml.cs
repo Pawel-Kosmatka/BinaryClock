@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -15,6 +14,7 @@ namespace BinaryClock
     {
         DispatcherTimer dTimer;
         DateTime time;
+        DateTime currentTime;
         Rectangle[] hours;
         Rectangle[] hoursB;
         Rectangle[] minutes;
@@ -110,7 +110,7 @@ namespace BinaryClock
 
         private void DTimer_Tick(object sender, EventArgs e)
         {
-            var currentTime = DateTime.Now;
+            currentTime = DateTime.Now;
 
             setTime(currentTime.Second % 10, seconds);
             setTime(currentTime.Second / 10, secondsB);
@@ -118,40 +118,29 @@ namespace BinaryClock
             {
                 setTime(currentTime.Minute % 10, minutes);
                 setTime(currentTime.Minute / 10, minutesB);
+                time = currentTime;
             }
             if (currentTime.Hour != time.Hour)
             {
                 setTime(currentTime.Hour % 10, hours);
                 setTime(currentTime.Hour / 10, hoursB);
+                time = currentTime;
             }
         }
         private void setTime(int cTime, Rectangle[] tab)
         {
-            var list = new List<int>();
-
-            while (cTime != 0)
+            for (int i = 0; i < tab.Length; ++i)
             {
-                list.Add(cTime % 2);
+                if (cTime % 2 == 1)
+                {
+                    tab[i].Fill = Brushes.Red;
+                }
+                else
+                {
+                    tab[i].Fill = Brushes.Snow;
+                }
                 cTime /= 2;
             }
-
-            if (list.Count != tab.Length)
-            {
-                int dif = tab.Length - list.Count;
-                for (int i = 0; i < dif; i++)
-                {
-                    list.Add(0);
-                }
-            }
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                if (list[i] == 1)
-                    tab[i].Fill = Brushes.Red;
-                else
-                    tab[i].Fill = Brushes.Snow;
-            }
-
         }
 
         private void exitBtn_Click(object sender, RoutedEventArgs e)
