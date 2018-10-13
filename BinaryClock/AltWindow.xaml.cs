@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BinaryClock.Properties;
+using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -25,6 +27,7 @@ namespace BinaryClock
         public AltWindow()
         {
             InitializeComponent();
+            Settings.Default.StartUpWindow = this.Name;
         }
 
 
@@ -158,6 +161,12 @@ namespace BinaryClock
             var mainWindow = new MainWindow();
             mainWindow.Show();
             this.Close();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Settings.Default.Save();
+            base.OnClosing(e);
         }
 
     }

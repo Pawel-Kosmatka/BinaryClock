@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BinaryClock.Properties;
+using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -22,6 +24,7 @@ namespace BinaryClock
         public MainWindow()
         {
             InitializeComponent();
+            Settings.Default.StartUpWindow = this.Name;
         }
 
         #region Tables Setting
@@ -130,9 +133,16 @@ namespace BinaryClock
 
         private void ViewChangeBtn_Click(object sender, RoutedEventArgs e)
         {
+            
             var nWindow = new AltWindow();
             nWindow.Show();
             this.Close();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Settings.Default.Save();
+            base.OnClosing(e);
         }
     }
 }
